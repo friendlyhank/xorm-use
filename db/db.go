@@ -1,9 +1,6 @@
 package db
 
 import (
-	"git.biezao.com/ant/xmiss/foundation/vars"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
 	mysql "github.com/go-sql-driver/mysql"
 	"github.com/xormplus/core"
 	"github.com/xormplus/xorm"
@@ -16,7 +13,6 @@ var (
 
 // Init - 自动初始化数据库的链接
 func Init() {
-	logs.Debug("|foundation|init|db|Init")
 
 	var (
 		err error
@@ -26,14 +22,12 @@ func Init() {
 	}
 
 	//
-	dbSource := vars.StoreSource.MySQL
+	dbSource := "root:123456@tcp(127.0.0.1:3306)/sakila?charset=utf8mb4&loc=Local&interpolateParams=true"
 	if dbEngine, err = xorm.NewEngine("mysql", dbSource); err != nil {
-		logs.Error("Engine Init Err:%v", err)
 		panic(err)
 	}
 	dbEngine.ShowSQL(true)
 	dbEngine.ShowExecTime(true)
-	dbEngine.SetLogger(xorm.NewSimpleLogger(beego.BeeLogger))
 	dbEngine.Logger().SetLevel(core.LOG_INFO)
 }
 
